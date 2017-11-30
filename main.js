@@ -22,8 +22,8 @@ ipcMain.on('mealorderupdated', async (event, args) => {
 		}
 	})
 	console.log('printerdata');
-	console.log(printerdata);
-	print(printerdata.data.forprinter)
+	console.log(printerdata.data.data.forprinter);
+	print(printerdata.data.data.forprinter)
 	// console.log(mealorder);
 })
 ipcMain.on('printer.print', (event, args) => {
