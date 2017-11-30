@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {ipaddress, scan, print} = require('./printer.js');
+const {ipaddress, scan, print,} = require('./printer.js');
 const path = require('path')
 const glob = require('glob')
 const electron = require('electron')
@@ -19,15 +19,16 @@ ipcMain.on('mealorderupdated', async (event, args) => {
 		operationName: '',
 		variables: {
 			id: args.id
-		}
+		},
 	})
 	console.log('printerdata');
 	console.log(printerdata.data.data.forprinter);
-	print(printerdata.data.data.forprinter)
+	let {ip, port, data,} = printerdata.data.data.forprinter
+	print({ip, port, data,})
 	// console.log(mealorder);
 })
 ipcMain.on('printer.print', (event, args) => {
-	let {ip, port, data,} = JSON.parse(args);
+	let {ip, port, data} = JSON.parse(args);
 	print(ip, port, data)
 })
 ipcMain.on('printer.init', (event, args) => {
@@ -47,7 +48,7 @@ function initialize() {
 			width: 1080,
 			minWidth: 680,
 			height: 840,
-			title: app.getName()
+			title: app.getName(),
 		}
 		if (process.platform === 'linux') {
 			windowOptions.icon = path.join(__dirname, '/assets/app-icon/png/512.png')

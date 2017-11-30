@@ -6,7 +6,7 @@ const portscanner = require('portscanner')
 //--------------ok
 //------------门店名称
 function print({
-	ipaddress,
+	ip,
 	port = 9100,
 	data = {},
 }) {
