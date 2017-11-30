@@ -1,4 +1,5 @@
-const {ipaddress, scan, print,} = require('./printer.js');
+const axios = require('axios');
+const {ipaddress, scan, print} = require('./printer.js');
 const path = require('path')
 const glob = require('glob')
 const electron = require('electron')
@@ -8,30 +9,21 @@ const app = electron.app
 const debug = /--debug/.test(process.argv[2])
 if (process.mas)
 	app.setName('易淘商家管理后台')
-//打印机通讯
+	//打印机通讯
 const {ipcMain} = require('electron')
 ipcMain.on('mealorderupdated', async (event, args) => {
-	if (!args) {
-		return false
-	}
-
-	let mealorderresult = await axios.post('http://nm.etao.cn/api/graphql', {
-		query: `query ($id: Int!) { mealorder(id: $id) { id mealcode deskcode supplier{ manufacturers { id printip printport } } supplier { name } created(fmt: "YYYY-MM-DD HH:mm:ss") paymentmethod { name } customer { name nickname } customernotes mealorderdetail { id quantity price total dishattr { name } dish { name } } total customertotal } }`,
+	let printerdata = await axios.post('http://nm.etao.cn/api/graphql', {
+		query: `query($id:Int!){ forprinter(id:$id) { ip port data } }`,
 		operationName: '',
 		variables: {
 			id: args.id
-		},
+		}
 	})
-	let mealorder = mealorderresult.data.data.mealorder[0]
-	if (mealorder.paymentstatus === 0) {
-		'订单未支付'
-		return false
-	}
-	print(mealorder, mealorder.supplier.manufacturers[0].printip,mealorder.supplier.manufacturers[0].printport)
-	console.log(mealorder);
+	print(printerdata.data.forprinter)
+	// console.log(mealorder);
 })
 ipcMain.on('printer.print', (event, args) => {
-	let {ip, port, data} = JSON.parse(args);
+	let {ip, port, data,} = JSON.parse(args);
 	print(ip, port, data)
 })
 ipcMain.on('printer.init', (event, args) => {
@@ -40,7 +32,6 @@ ipcMain.on('printer.init', (event, args) => {
 	})
 })
 //打印机通讯结束
-
 var mainWindow = null
 function initialize() {
 	var shouldQuit = makeSingleInstance()
@@ -52,7 +43,7 @@ function initialize() {
 			width: 1080,
 			minWidth: 680,
 			height: 840,
-			title: app.getName(),
+			title: app.getName()
 		}
 		if (process.platform === 'linux') {
 			windowOptions.icon = path.join(__dirname, '/assets/app-icon/png/512.png')
