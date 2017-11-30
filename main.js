@@ -23,8 +23,13 @@ ipcMain.on('mealorderupdated', async (event, args) => {
 	})
 	console.log('printerdata');
 	console.log(printerdata.data.data.forprinter);
-	let {ip, port, data,} = printerdata.data.data.forprinter
-	print({ip, port, data,})
+	if (printerdata.data.data.forprinter.length <= 0) {
+		return false
+	}
+	for (tobeprint of printerdata.data.data.forprinter) {
+		let {ip, port, data,} = tobeprint
+		print({ip, port, data,})
+	}
 	// console.log(mealorder);
 })
 ipcMain.on('printer.print', (event, args) => {
