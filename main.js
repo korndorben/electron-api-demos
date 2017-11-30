@@ -12,6 +12,8 @@ if (process.mas)
 	//打印机通讯
 const {ipcMain} = require('electron')
 ipcMain.on('mealorderupdated', async (event, args) => {
+	console.log('mealorderupdated.args');
+	console.log(args);
 	let printerdata = await axios.post('http://nm.etao.cn/api/graphql', {
 		query: `query($id:Int!){ forprinter(id:$id) { ip port data } }`,
 		operationName: '',
