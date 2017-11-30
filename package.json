@@ -1,8 +1,8 @@
 {
-  "name": "ElectronAPIDemos",
-  "productName": "Electron API Demos",
-  "version": "1.3.0",
-  "description": "Electron interactive API demos",
+  "name": "etapos",
+  "productName": "etaoos",
+  "version": "0.0.1",
+  "description": "易淘商家管理后台",
   "private": true,
   "main": "main.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "test": "mocha && standard",
     "package": "npm-run-all package:*",
     "package:mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --out=out --icon=assets/app-icon/mac/app.icns --osx-sign.identity='Developer ID Application: GitHub' --extend-info=assets/mac/info.plist",
-    "package:win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=out --icon=assets/app-icon/win/app.ico",
+    "package:win": "electron-packager . --overwrite --platform=win32 --out=out --icon=assets/app-icon/win/app.ico",
     "package:linux": "electron-packager . --overwrite --platform=linux --arch=x64 --out=out",
     "package:sign-exe": "signcode './out/Electron API Demos-win32-ia32/Electron API Demos.exe' --cert ~/electron-api-demos.p12 --prompt --name 'Electron API Demos' --url 'http://electron.atom.io'",
     "package:installer": "node ./script/installer.js",
@@ -23,12 +23,7 @@
     "prepush": "check-for-leaks"
   },
   "repository": "https://github.com/electron/electron-api-demos",
-  "keywords": [
-    "Electron",
-    "API",
-    "demo"
-  ],
-  "author": "GitHub",
+  "author": "api.list@etao.cn",
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.4.1",
@@ -48,10 +43,14 @@
     "standard": "^8.2.0"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "electron-settings": "^3.0.7",
     "electron-shortcut-normalizer": "^1.0.0",
     "glob": "^7.1.0",
-    "highlight.js": "^9.3.0"
+    "highlight.js": "^9.3.0",
+    "iconv-lite": "^0.4.19",
+    "moment": "^2.19.3",
+    "portscanner": "^2.1.1"
   },
   "standard": {
     "env": {
