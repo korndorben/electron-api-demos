@@ -14,8 +14,9 @@ ipcMain.on('mealorderupdated', async (event, args) => {
 	if (!args) {
 		return false
 	}
+
 	let mealorderresult = await axios.post('http://nm.etao.cn/api/graphql', {
-		query: `query ($id: Int!) { mealorder(id: $id) { id mealcode deskcode supplier { name } created(fmt: "YYYY-MM-DD HH:mm:ss") paymentmethod { name } customer { name nickname } customernotes mealorderdetail { id quantity price total dishattr{ name } dish{ name } } total customertotal } }`,
+		query: `query ($id: Int!) { mealorder(id: $id) { id mealcode deskcode supplier{ manufacturers { id printip printport } } supplier { name } created(fmt: "YYYY-MM-DD HH:mm:ss") paymentmethod { name } customer { name nickname } customernotes mealorderdetail { id quantity price total dishattr { name } dish { name } } total customertotal } }`,
 		operationName: '',
 		variables: {
 			id: args.id
@@ -26,7 +27,7 @@ ipcMain.on('mealorderupdated', async (event, args) => {
 		'订单未支付'
 		return false
 	}
-	print(mealorder, '172.18.13.250')
+	print(mealorder, mealorder.supplier.manufacturers[0].printip,mealorder.supplier.manufacturers[0].printport)
 	console.log(mealorder);
 })
 ipcMain.on('printer.print', (event, args) => {

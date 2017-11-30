@@ -5,8 +5,8 @@ const moment = require('moment');
 const portscanner = require('portscanner')
 //--------------ok
 //------------门店名称
-function print(data, ipaddress = '172.18.13.250') {
-	const client = net.createConnection(9100, ipaddress, function() {})
+function print(data, ipaddress = '172.18.13.250',port=9100) {
+	const client = net.createConnection(port, ipaddress, function() {})
 	client.on('connect', function() {
 		console.log('connected');
 		//48
