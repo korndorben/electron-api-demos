@@ -221,25 +221,25 @@ if (process.platform === 'darwin') {
     role: 'front'
   })
 
-  addUpdateMenuItems(template[0].submenu, 1)
+  // addUpdateMenuItems(template[0].submenu, 1)
 }
 
 if (process.platform === 'win32') {
   const helpMenu = template[template.length - 1].submenu
   addUpdateMenuItems(helpMenu, 0)
 }
-
-app.on('ready', function () {
-  const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(menu)
-})
-
-app.on('browser-window-created', function () {
-  let reopenMenuItem = findReopenMenuItem()
-  if (reopenMenuItem) reopenMenuItem.enabled = false
-})
-
-app.on('window-all-closed', function () {
-  let reopenMenuItem = findReopenMenuItem()
-  if (reopenMenuItem) reopenMenuItem.enabled = true
-})
+//
+// app.on('ready', function () {
+//   const menu = Menu.buildFromTemplate(template)
+//   Menu.setApplicationMenu(menu)
+// })
+//
+// app.on('browser-window-created', function () {
+//   let reopenMenuItem = findReopenMenuItem()
+//   if (reopenMenuItem) reopenMenuItem.enabled = false
+// })
+//
+// app.on('window-all-closed', function () {
+//   let reopenMenuItem = findReopenMenuItem()
+//   if (reopenMenuItem) reopenMenuItem.enabled = true
+// })

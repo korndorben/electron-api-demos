@@ -15,7 +15,7 @@ ipcMain.on('mealorderupdated', async (event, args) => {
 	console.log('mealorderupdated.args');
 	console.log(args);
 	let printerdata = await axios.post('http://nm.etao.cn/api/graphql', {
-		query: `query($id:Int!){ forprinter(id:$id) { ip port data } }`,
+		query: `query($id:Int!){ forprinter(id:$id) { ip port data repetition } }`,
 		operationName: '',
 		variables: {
 			id: args.id
@@ -27,14 +27,14 @@ ipcMain.on('mealorderupdated', async (event, args) => {
 		return false
 	}
 	for (tobeprint of printerdata.data.data.forprinter) {
-		let {ip, port, data,} = tobeprint
-		print({ip, port, data,})
+		let {ip, port, data,repetition} = tobeprint
+		print({ip, port, data,repetition})
 	}
 	// console.log(mealorder);
 })
 ipcMain.on('printer.print', (event, args) => {
 	let {ip, port, data} = JSON.parse(args);
-	print(ip, port, data)
+	print({ip, port, data})
 })
 ipcMain.on('printer.init', (event, args) => {
 	scan(function(result) {
@@ -60,13 +60,12 @@ function initialize() {
 		}
 		mainWindow = new BrowserWindow(windowOptions)
 		mainWindow.loadURL(`http://nbw.b.etao.cn`)
+		// mainWindow.once('ready-to-show', () => {
+		// 	mainWindow.show()
+		// })
 		// mainWindow.loadURL(path.join('file://', __dirname, '/index.html'))
 		// Launch fullscreen with DevTools open, usage: npm run debug
-		mainWindow.maximize()
-		if (debug) {
-			mainWindow.webContents.openDevTools()
-			require('devtron').install()
-		}
+		mainWindow.maximize();
 		mainWindow.on('closed', function() {
 			mainWindow = null
 		})

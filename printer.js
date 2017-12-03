@@ -9,13 +9,14 @@ function print({
 	ip,
 	port = 9100,
 	data = {},
+	repetition = 1
 }) {
-	const client = net.createConnection(port/1, ip, function() {})
+	const client = net.createConnection(port / 1, ip, function() {})
 	client.on('connect', function() {
 		console.log('connected');
-		//48
-		client.write(Buffer.from(data,'base64'))
-		// client.write(Buffer.from([0x1d, 0x56, 0x00,])); //切纸
+		for (var i = 0; i < repetition; i++) {
+			client.write(Buffer.from(data, 'base64'))
+		}
 		client.end();
 	})
 	client.on('error', function(err) {
